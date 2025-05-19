@@ -1,0 +1,24 @@
+<mjml>
+  <mj-body background-color="#fafbfc">
+    <mj-section background-color="#ffffff" padding="40px 20px">
+      <mj-column vertical-align="middle" width="100%">
+        <mj-text align="center" padding="35px" font-size="20px" font-family="Ubuntu, Helvetica, Arial, sans-serif" color="#333333">
+          {{ project_name }} - Verify Your Email
+        </mj-text>
+        <mj-text align="center" font-size="16px" padding="0 25px" font-family="Arial, Helvetica, sans-serif" color="#555555">
+          Welcome to your new account!
+        </mj-text>
+        <mj-text align="center" font-size="16px" padding="0 25px" font-family="Arial, Helvetica, sans-serif" color="#555555">
+          Click the button below to verify your email address and activate your account.
+        </mj-text>
+        <mj-button align="center" font-size="18px" background-color="#800080" border-radius="8px" color="#ffffff" href="{{ link }}" padding="15px 30px">
+          Verify Email
+        </mj-button>
+        <mj-text align="center" font-size="14px" padding="10px 25px" font-family="Arial, Helvetica, sans-serif" color="#999999">
+          This link is valid for {{ valid_hours }} hours.
+        </mj-text>
+        <mj-divider border-color="#ccc" border-width="2px" />
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
