@@ -73,43 +73,43 @@ class Settings(BaseSettings):
         )
         
     #redis
-    REDIS_HOST: str 
-    REDIS_PORT: int = 6379
-    REDIS_USER: str = ""
-    REDIS_PASSWORD: str = ""
-    REDIS_DB: int = 0   
+    # REDIS_HOST: str 
+    # REDIS_PORT: int = 6379
+    # REDIS_USER: str 
+    # REDIS_PASSWORD: str 
+    # REDIS_DB: int = 0   
     
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def REDIS_URL(self) -> str:
-        return MultiHostUrl.build(
-            scheme="redis",
-            username=self.REDIS_USER,
-            password=self.REDIS_PASSWORD,
-            host=self.REDIS_HOST,
-            port=self.REDIS_PORT,
-            path=str(self.REDIS_DB),
-        )
+    # @computed_field  # type: ignore[prop-decorator]
+    # @property
+    # def REDIS_URL(self) -> str:
+    #     return MultiHostUrl.build(
+    #         scheme="redis",
+    #         username=self.REDIS_USER,
+    #         password=self.REDIS_PASSWORD,
+    #         host=self.REDIS_HOST,
+    #         port=self.REDIS_PORT,
+    #         path=str(self.REDIS_DB),
+    #     )
          
-    CELERY_BROKER_URL: str = ""
-    CELERY_RESULT_BACKEND: str = ""
-    CELERY_ACCEPT_CONTENT: list[str] = ["json"]
-    CELERY_TASK_SERIALIZER: str = "json"
-    CELERY_RESULT_SERIALIZER: str = "json"
-    CELERY_TIMEZONE: str = "UTC"
-    CELERY_ENABLE_UTC: bool = True
-    CELERY_TASK_TRACK_STARTED: bool = True
+    # CELERY_BROKER_URL: str
+    # CELERY_RESULT_BACKEND: str 
+    # CELERY_ACCEPT_CONTENT: list[str] = ["json"]
+    # CELERY_TASK_SERIALIZER: str = "json"
+    # CELERY_RESULT_SERIALIZER: str = "json"
+    # CELERY_TIMEZONE: str = "UTC"
+    # CELERY_ENABLE_UTC: bool = True
+    # CELERY_TASK_TRACK_STARTED: bool = True
     
-    @model_validator(mode="before")
-    def _set_celery_broker_url(self) -> Self:
-        if not self.CELERY_BROKER_URL:
-            self.CELERY_BROKER_URL = self.REDIS_URL
-        return self
-    @model_validator(mode="before")
-    def _set_celery_result_backend(self) -> Self:
-        if not self.CELERY_RESULT_BACKEND:
-            self.CELERY_RESULT_BACKEND = self.REDIS_URL
-        return self
+    # @model_validator(mode="after")
+    # def _set_celery_broker_url(self) -> Self:
+    #     if not self.CELERY_BROKER_URL:
+    #         self.CELERY_BROKER_URL = self.REDIS_URL
+    #     return self
+    # @model_validator(mode="after")
+    # def _set_celery_result_backend(self) -> Self:
+    #     if not self.CELERY_RESULT_BACKEND:
+    #         self.CELERY_RESULT_BACKEND = self.REDIS_URL
+    #     return self
 
 
     SMTP_TLS: bool = True
@@ -127,30 +127,5 @@ class Settings(BaseSettings):
             self.EMAILS_FROM_NAME = self.PROJECT_NAME
         return self
     
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def emails_enabled(self) -> bool:
-        return bool(self.SMTP_HOST and self.EMAILS_FROM_EMAIL)
-
-    EMAIL_TEST_USER: EmailStr = "test@example.com"
-
-
-    def _check_default_secret(self, var_name: str, value: str | None) -> None:
-        if value == "changethis":
-            message = (
-                f'The value of {var_name} is "changethis", '
-                "for security, please change it, at least for deployments."
-            )
-            if self.ENVIRONMENT == "local":
-                warnings.warn(message, stacklevel=1)
-            else:
-                raise ValueError(message)
-
-    @model_validator(mode="after")
-    def _enforce_non_default_secrets(self) -> Self:
-        self._check_default_secret("SECRET_KEY", self.SECRET_KEY)
-        self._check_default_secret("POSTGRES_PASSWORD", self.POSTGRES_PASSWORD)
-
-        return self
     
 settings = Settings()    

@@ -4,7 +4,7 @@ from pydantic import EmailStr
 from sqlmodel import Field, SQLModel
 
 class UserBase(SQLModel):
-    email: EmailStr = Field(index=True, unique=True, nullable=False)
+    email: EmailStr = Field(unique=True, index=True, max_length=255)
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now, nullable=True)
     is_active: bool = Field(default=True)
@@ -45,3 +45,6 @@ class User(UserBase, table=True):
     hashed_password: str 
     
     __tablename__ = "users"
+    
+
+    

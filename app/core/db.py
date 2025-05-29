@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, Session, create_engine, select
 
 
 from app.core.config import settings
+from app.user.models import User
 
 
 
