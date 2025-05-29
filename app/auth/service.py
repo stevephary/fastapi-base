@@ -71,12 +71,12 @@ def verify_user_email(*, session: Session, token: str) -> Token:
             detail="Email already verified",
         )
     db_user.is_verified = True
-    db_user.updated_at = datetime.datetime.now()
+    db_user.updated_at = datetime.now()
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
     access_token = security.create_access_token(
-        subject=db_user.email,
+        subject=db_user.id,
         expires_delta=datetime.timedelta(hours=settings.ACCESS_TOKEN_EXPIRES_MINUTES)
     )
     token = Token(
@@ -133,14 +133,14 @@ def authenticate_user(*, session: Session, email: str, password: str) -> Token:
             detail="Incorrect password",
         )
   
-    if not db_user.is_verified:
-        raise HTTPException(
-            status_code=403,
-            detail="Email not verified",
-        )
+    # if not db_user.is_verified:
+    #     raise HTTPException(
+    #         status_code=403,
+    #         detail="Email not verified",
+    #     )
     
     access_token = security.create_access_token(
-        subject=db_user.email,
+        subject=db_user.id,
         expires_delta=datetime.timedelta(hours=settings.ACCESS_TOKEN_EXPIRES_MINUTES)
     )
     
@@ -189,7 +189,7 @@ def reset_password(*, session:Session, new_password: NewPassword) -> bool:
     
     hashed_password = security.get_password_hash(new_password.password)
     db_user.hashed_password = hashed_password
-    db_user.updated_at = datetime.datetime.now()
+    db_user.updated_at = datetime.now()
     session.add(db_user)
     session.commit()
     session.refresh(db_user)

@@ -41,7 +41,7 @@ def login(
     session: SessionDep
 ) -> Token:
     """Login user and return access token."""
-    return service.login_user(session=session, email =form_data.username, password=form_data.password
+    return service.authenticate_user(session=session, email =form_data.username, password=form_data.password
 )
     
 @router.post("/recover-password", status_code=200, response_model=Message)
@@ -62,14 +62,5 @@ def reset_password(
     """Reset user password."""
     service.reset_password(session=session, token=token, new_password=new_password)
     return Message(message="Password reset successfully.")
-
-@router.post("/resend-verification-email", status_code=200, response_model=Message)
-def resend_verification_email(
-    email: str,
-    session: SessionDep,
-) -> Message:
-    """Resend verification email."""
-    service.resend_verification_email(session=session, email=email)
-    return Message(message="Verification email resent successfully.")
 
 

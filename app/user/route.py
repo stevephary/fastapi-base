@@ -13,7 +13,7 @@ def update_password(
     session: SessionDep
 ) -> Message:
     """Update user password."""
-    service.update_password(session=session, email=current_user.email, password=password)
+    service.update_password(session=session, user_id=current_user.id, password=password)
     return Message(message="Password updated successfully.")
 
 @router.get("/me", status_code=200, response_model=UserData)
@@ -22,6 +22,6 @@ def get_current_user_data(
     session: SessionDep
 ) -> UserData:
     """Get current user data."""
-    return service.get_current_user(session=session, user=current_user.email)
+    return service.get_current_user(session=session, user_id=current_user.id)
 
 

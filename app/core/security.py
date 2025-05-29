@@ -19,7 +19,7 @@ def create_access_token(subject: str | Any, expires_delta: datetime.timedelta) -
     return encoded_jwt
 
 def create_email_verification_token(email: str) -> str:
-    delta = datetime.timedelta(hours=settings.EMAIL_RESET_TOKEN_EXPIRE_HOURS)
+    delta = datetime.timedelta(hours=settings.EMAIL_VERIFICATION_EXPIRES_MINUTES)
     now = datetime.datetime.now(datetime.timezone.utc)
     expires = now + delta
     exp = expires.timestamp()

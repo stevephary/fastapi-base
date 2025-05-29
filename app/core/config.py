@@ -127,5 +127,10 @@ class Settings(BaseSettings):
             self.EMAILS_FROM_NAME = self.PROJECT_NAME
         return self
     
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def emails_enabled(self) -> bool:
+        return bool(self.SMTP_HOST and self.EMAILS_FROM_EMAIL)
+    
     
 settings = Settings()    
