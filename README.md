@@ -57,6 +57,15 @@ cd your-new-repo
 
 ---
 
+## 📝 Environment Variables Setup
+
+1. Create a new `.env` file in the project root.  
+2. Copy the contents from `.env.example` into `.env`.  
+3. Update the values in `.env` to match your own configuration.
+
+---
+
+
 ## 🔧 Local Development Setup
 
 ```bash
@@ -81,6 +90,12 @@ uvicorn app.main:app --reload
 ## 🐳 Docker Setup
 
 ```bash
+# Create a virtual environment
+uv venv
+
+# Activate the environment
+source .venv/bin/activate
+
 # Build the containers
 docker compose build
 
