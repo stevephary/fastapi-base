@@ -99,6 +99,4 @@ docker compose up
 ✅ Your FastAPI app is now ready with modular structure, Docker support, authentication, and email verification.
 
 ```
-
----
 ```
